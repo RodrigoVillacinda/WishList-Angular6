@@ -7,6 +7,7 @@
                 <h3>{{destino.nombre}}</h3>
                 <p>Lorem ipsum	dolosit	amet consectetur, adipisicing elit. Laboriosam,	voluptatum! Dolor quo, perspiciatis
                         voluptas totam</p>
-                        <a href="#" class="btn-card">Read</a>
+                        <a href="#" class="btn-card" (click)="ir()">Ir!</a>
+                        <span [style.display]="destino.isSelected() ? '' : 'none'" >- PREFERIDO -</span>
         </div>
 </div>
