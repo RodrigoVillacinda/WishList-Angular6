@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, Inject, forwardRef } from '@angular/core';
+
+import { DestinoViaje } from '../models/destino-viaje.models';
+import { FormGroup, FormBuilder } from '@angular/forms';
+
 
 @Component({
   selector: 'app-form-destino-viaje',
@@ -6,10 +10,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./form-destino-viaje.component.css']
 })
 export class FormDestinoViajeComponent implements OnInit {
+  @Output() onItemAdded: EventEmitter<DestinoViaje>;
+  fg: FormGroup;
 
-  constructor() { }
+  constructor(fb: FormBuilder) { 
+    this.onItemAdded = new EventEmitter();
+    this.fg = fb.group({
+        nombre: [''],
+        url: ['']
+      });
+  }
 
   ngOnInit(): void {
+  }
+
+  guardar(nombre: string, url: string): boolean{
+    const d = new DestinoViaje(nombre, url);
+    this.onItemAdded.emit(d);
+    return false; 
   }
 
 }
