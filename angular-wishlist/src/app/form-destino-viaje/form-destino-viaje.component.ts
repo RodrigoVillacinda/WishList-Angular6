@@ -19,6 +19,10 @@ export class FormDestinoViajeComponent implements OnInit {
         nombre: [''],
         url: ['']
       });
+
+      this.fg.valueChanges.subscribe( (form: any) =>{
+        console.log('cambio el formulario: ' + form);
+      } );
   }
 
   ngOnInit(): void {
