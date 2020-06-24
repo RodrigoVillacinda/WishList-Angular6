@@ -1,7 +1,10 @@
 import { DestinoViaje } from './destino-viaje.models';
+import { identifierModuleUrl } from '@angular/compiler';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 export class DestinosApiClient {
 	destinos:DestinoViaje[];
+	current: Subject<DestinoViaje> = new BehaviorSubject<DestinoViaje>(null);
 	constructor() {
        this.destinos = [];
 	}
@@ -10,5 +13,18 @@ export class DestinosApiClient {
 	}
 	getAll(){
 	  return this.destinos;
-    }
+	}
+	getById(id:String):DestinoViaje{
+		return this.destinos.filter(function(d){return d.id.toString() === id;})[0];
+	}
+
+	elegir(d: DestinoViaje) {
+		this.destinos.forEach( x => x.setSelected(false) );
+		d.setSelected(true);
+		this.current.next(d);
+	}
+
+	subscribeOnChange(fn) {
+		this.current.subscribe(fn);
+	}
 } 

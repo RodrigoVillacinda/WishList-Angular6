@@ -11,8 +11,15 @@ import { environment } from '../../environments/environment';
 })
 export class ListaDestinosComponent implements OnInit {
   @Output() onItemAdded: EventEmitter<DestinoViaje>;
+  updates: string[];
   constructor(public destinosApiCliente:DestinosApiClient) { 
     this.onItemAdded = new EventEmitter();
+    this.updates = [];
+    this.destinosApiCliente.subscribeOnChange((d: DestinoViaje) => {
+      if(d !=null){
+        this.updates.push('Se ha elegido a ' + d.nombre);
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -24,8 +31,7 @@ export class ListaDestinosComponent implements OnInit {
   }
 
   elegido(e: DestinoViaje){
-    this.destinosApiCliente.getAll().forEach( x => x.setSelected(false) );
-    e.setSelected(true);
+    this.destinosApiCliente.elegir(e);
   }
 
 }
